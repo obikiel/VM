@@ -21,17 +21,27 @@ resource "azurerm_subnet" "example" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
+# NEW: Add this network interface resource
+resource "azurerm_network_interface" "example" {
+  name                = "tf-jenkins-nic"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.example.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
 resource "azurerm_linux_virtual_machine" "example" {
   name                = "tf-jenkins-vm"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   size                = "Standard_B1s"
   admin_username      = "adminuser"
-  admin_password      = "P@ssw0rd1234!" # Use SSH keys in production!
-  disable_password_authentication = false
-
   network_interface_ids = [
-    azurerm_network_interface.example.id,
+    azurerm_network_interface.example.id,  # Now properly referencing the NIC
   ]
 
   os_disk {
