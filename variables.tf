@@ -13,7 +13,7 @@ variable "location" {
 variable "storage_account_name" {
   description = "Name of the storage account"
   type        = string
-  default     = "ugochukwu-storage" # Must be globally unique
+  default     = "ugochukwustorage224" # Must be globally unique
 }
 
 variable "storage_account_tier" {
