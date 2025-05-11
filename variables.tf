@@ -4,6 +4,7 @@ variable "resource_group_name" {
   default     = "tf-storage-demo-rg"
 }
 
+
 variable "location" {
   description = "Azure region for resources"
   type        = string

@@ -18,6 +18,10 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+  lifecycle {
+    ignore_changes = [tags] # Prevents conflicts if modified outside Terraform
+        }
+
 # Create the storage account
 resource "azurerm_storage_account" "storage" {
   name                     = var.storage_account_name
